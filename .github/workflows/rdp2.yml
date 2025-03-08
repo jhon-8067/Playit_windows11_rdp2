@@ -7,7 +7,7 @@ on:
 
 jobs:
   setup-rdp-tunnel:
-    runs-on: windows-2022  # Use Windows Server 2022 (Compatible with Windows 11)
+    runs-on: windows-2022  # Windows Server 2022 (Compatible with Windows 11)
     # If GitHub supports Windows 2023, change it to: windows-2023
 
     steps:
@@ -40,4 +40,5 @@ jobs:
 
     - name: Keep RDP Running (Auto-Restart)
       run: |
-        while ($true) { Start-Sleep -Seconds 3600 } # Keeps the session alive indefinitely
+        Start-Job -ScriptBlock { while ($true) { Start-Sleep -Seconds 3600 } }  # Background job to keep session alive
+        Start-Sleep -Seconds 82800  # Keeps GitHub runner alive for ~23 hours
